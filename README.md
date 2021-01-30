@@ -7,11 +7,11 @@ It is supposed to be used with SageMaker. If you want to start a container with 
 In the training job of SageMaker, create a "train" in the input data channel and store the necessary data in advance in the S3 folder specified here.  
 
 ### necessary data
-- train.txt
+- train.txt  
   training data
-- test.txt
+- test.txt  
   test data
-- spm.model
+- spm.model  
   This code uses SentencePiece as a tokenizer. Please prepare a model of SentencePiece separately.
 
 ### Available option
