@@ -59,15 +59,15 @@ def train(args):  # noqa: C901
     VOCAB_SIZE = tokenizer.get_piece_size()
 
     # Create TFRecord from train data and test data.
-    print('####### Creating TFRecord #######')
     mt = MakeTfRecord()
-    mt.make(TRAIN_TFRECORD_PATH, TRAIN_FILE_PATH, tokenizer, BLOCK_SIZE)
-    mt.make(TEST_TFRECORD_PATH, TEST_FILE_PATH, tokenizer, BLOCK_SIZE)
-
-    # Backup created TFRecord file.
-    print('####### Backup TFRecord #######')
-    shutil.copy2(TRAIN_TFRECORD_PATH, TRAIN_TFRECORD_BACKUP_PATH)
-    shutil.copy2(TEST_TFRECORD_PATH, TEST_TFRECORD_BACKUP_PATH)
+    if not os.path.isfile(TRAIN_TFRECORD_PATH):
+        print('####### Create and Backup train TFRecord #######')
+        mt.make(TRAIN_TFRECORD_PATH, TRAIN_FILE_PATH, tokenizer, BLOCK_SIZE)
+        shutil.copy2(TRAIN_TFRECORD_PATH, TRAIN_TFRECORD_BACKUP_PATH)
+    if not os.path.isfile(TEST_TFRECORD_PATH):
+        print('####### Create and Backup test TFRecord #######')
+        mt.make(TEST_TFRECORD_PATH, TEST_FILE_PATH, tokenizer, BLOCK_SIZE)
+        shutil.copy2(TEST_TFRECORD_PATH, TEST_TFRECORD_BACKUP_PATH)
 
     print('####### Loading created TFRecord #######')
     lt = LoadTfRecord(BLOCK_SIZE)
